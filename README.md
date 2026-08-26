@@ -45,7 +45,7 @@ Three EFR32ZG28 (BRD2705A) roles work together to demonstrate remote actuator co
 ```
 
 - **`border-router/`** — Silicon Labs' stock `wisun_soc_brcli` sample. Runs entirely on one EFR32 chip (no Linux host, no RCP, no external hardware) and creates the FAN 1.1 PAN both other nodes join. Its own CLI (`wisun udp_client`, `wisun socket_write`) can also be used directly to send the same UDP command payloads the commander sends, which is how this network was first validated end-to-end.
-- **Receiver** *(to be added)* — joins the PAN, obtains a global IPv6 address, opens a UDP server on port 5000 using the raw Wi-SUN socket API (indication-mode sockets, non-blocking), parses `LED_ON` / `LED_OFF` / `LED_TOGGLE` / `STATUS` commands, drives the board's onboard LED via the Simple LED driver, and replies to the sender with the matching `*_ACK` payload (`LED_ON_ACK`, `LED_OFF_ACK`, `LED_TOGGLE_ACK`, `STATUS:ON`/`STATUS:OFF`). On every received packet it also logs RPL neighbor link-quality metrics — RSSI, RSL in/out (EWMA), ETX, routing cost, PAN size — for empirical range testing.
+- **`receiver/`** — joins the PAN, obtains a global IPv6 address, opens a UDP server on port 5000 using the raw Wi-SUN socket API (indication-mode sockets, non-blocking), parses `LED_ON` / `LED_OFF` / `LED_TOGGLE` / `STATUS` commands, drives the board's onboard LED via the Simple LED driver, and replies to the sender with the matching `*_ACK` payload (`LED_ON_ACK`, `LED_OFF_ACK`, `LED_TOGGLE_ACK`, `STATUS:ON`/`STATUS:OFF`). On every received packet it also logs RPL neighbor link-quality metrics — RSSI, RSL in/out (EWMA), ETX, routing cost, PAN size — for empirical range testing. Modular: `wisun_node.c/h` (join + IPv6), `udp_server.c/h` (socket + command parsing + link-quality logging), `led_controller.c/h` (Simple LED driver wrapper).
 - **Commander** *(to be added)* — a serial-CLI-driven UDP client: types `LED ON` / `LED OFF` / `LED TOGGLE` / `STATUS` / `SET_TARGET <ipv6>` over VCOM, sends the corresponding UDP payload to the receiver, and prints back whatever ACK arrives.
 
 ### Design notes
@@ -60,7 +60,7 @@ Three EFR32ZG28 (BRD2705A) roles work together to demonstrate remote actuator co
 ```
 .
 ├── border-router/   Wi-SUN SoC Border Router (wisun_soc_brcli) — creates the PAN
-├── receiver/         (coming) LED node — UDP server, LED control, link-quality logging
+├── receiver/         LED node — UDP server, LED control, link-quality logging
 └── commander/         (coming) LED node — UDP client, serial CLI
 ```
 
@@ -84,7 +84,7 @@ Output artifacts (`.hex`, `.bin`, `.s37`, `.out`) land in `cmake_gcc/build/base/
    wisun start_fan11
    wisun get wisun.state        # should report: operational (1)
    ```
-2. Flash the receiver to a second board and wait for its `Operational` banner and printed global IPv6 address.
+2. Flash `receiver/` to a second board and wait for its `Operational` banner and printed global IPv6 address.
 3. From the Border Router's CLI, open a UDP connection to that address and drive it directly (useful before the commander firmware is added, or for scripted testing):
    ```
    wisun udp_client <receiver-ipv6> 5000

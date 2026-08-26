@@ -1,0 +1,1619 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>CLI Command Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,500;1,300;1,500&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,500;1,300;1,500&display=swap" rel="stylesheet">
+<style>
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, code, em, strong,
+ol, ul, li, article, aside, footer, header, menu, nav, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+body {
+  line-height: 1;
+  background: #f8f8f8;
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  padding-bottom: 36px;
+}
+ol, ul {
+  list-style: none;
+}
+strong {
+  font-weight: 500;
+}
+em {
+  font-style: italic;
+}
+
+.command {
+  background: #ffffff;
+  margin: 18px;
+  position: relative;
+  padding: 21px 24px 24px 24px;
+  min-width: 300px;
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.27);
+  border-radius: 2px;
+}
+.command-header-bar {
+  position: absolute;
+  height: 32px;
+  width: 4px;
+  top: 24px;
+  left: 0;
+  background-color: #0086d9;
+}
+
+h1 {
+  font-size: 42px;
+  margin: 18px;
+  line-height: 54px;
+}
+h2 {
+  font-size: 36px;
+  margin: 18px;
+  padding-top: 18px;
+  line-height: 42px;
+}
+h3 {
+  font-size: 30px;
+  margin: 18px;
+  line-height: 36px;
+}
+h4 {
+  font-size: 24px;
+  margin: 18px;
+  line-height: 30px;
+}
+
+.command-header {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 18px;
+  color: #333333;
+  line-height: 38px;
+  padding-bottom: 8px;
+}
+.group-header {
+  font-family: 'Roboto Mono', monospace;
+  color: #444447;
+}
+
+.command-name {
+  font-weight: 500;
+}
+.command-argument {
+  padding-left: 12px;
+}
+.command-handler {
+  display:inline-block;
+  float: right;
+  font-size: 12px;
+  line-height: 38px;
+}
+.group-info > .help, .group-info > .alias-list {
+  margin: 0 18px;
+}
+
+.arguments-title {
+  font-weight: 500;
+  margin-top: 8px;
+  line-height: 20px;
+}
+.argument-list li {
+  margin-left: 12px;
+  line-height: 20px;
+}
+.argument-list .argument-name {
+  font-family: 'Roboto Mono', monospace;
+  display: inline-block;
+  width: 50px;
+}
+
+.aliases-title {
+  font-weight: 500;
+  margin-top: 8px;
+  line-height: 20px;
+  display: inline-block;
+}
+.alias-list .alias {
+  margin-left: 12px;
+  line-height: 20px;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.search {
+  padding: 0 18px;
+  float: right;
+  font-size: 18px;
+}
+
+#search {
+  padding: 12px;
+  border: 1px solid #acacac;
+  border-radius: 2px;
+  width: 300px;
+  font-size: 16px;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 300;
+}
+
+</style>
+</head>
+
+<!--
+Example syntax (.slcc or .slcp) for populating this file:
+
+  template_contribution:
+    - name: cli_command          # Register a command
+      value:
+        name: status             # Name of command
+        handler: status_command  # Function to be called. Must be defined
+        help: "Prints status"    # Optional help description
+        shortcuts:               # Optional shorcut list
+          - name: st
+        argument:                # Argument list, if apliccable
+          - type: uint8          # Variable type
+            help: "Channel"      # Optional description
+          - type: string
+            help: "Text"
+    - name: cli_group            # Register a group
+      value:
+        name: shell              # Group name
+        help: "Shell commands"   # Optional help description
+        shortcuts:               # Optional shorcuts
+          - name: sh
+    - name: cli_command
+      value:
+        name: repeat
+        handler: repeat_cmd
+        help: "Repeat commands"
+        shortcuts:
+          - name: r
+          - name: rep
+        group: shell            # Associate command with group
+        argument:
+          - type: string
+            help: "Text"
+          - type: additional
+            help: "More text"
+-->
+
+<body>
+<div class="search">
+<input type="text" tabindex="0" id="search" placeholder="Search for command..." />
+</div>
+<h1>CLI Command Reference</h1>
+
+
+
+<div class="command-list">
+
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name">reboot</span>
+      <span class="command-handler">app_reboot</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Reboot board</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias">r</span>
+      </div>
+      
+      
+    </div>
+  </div>
+
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name">about</span>
+      <span class="command-handler">app_about</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Get info about the running app</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias">a</span>
+      </div>
+      
+      
+    </div>
+  </div>
+<div class="group">
+  <div class="group-header">
+    <h2 class="group-name"> wisun</h2>
+  </div>
+  <div class="group-info">
+    <span class="help">Wi-SUN commands</span>
+    
+    <div class="command-list">
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun set</span>
+        <span class="command-argument">*</span>
+      <span class="command-handler">app_set</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Set a variable</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w s</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">*</span>empty | help | [string] Key [string] Value <em>(zero or more arbitrary arguments)</em>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun get</span>
+        <span class="command-argument">*</span>
+      <span class="command-handler">app_get</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Get a variable</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w g</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">*</span>empty | help | [string] Key <em>(zero or more arbitrary arguments)</em>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun save</span>
+      <span class="command-handler">app_save</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Save variables to non-volatile storage</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w a</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun reset</span>
+      <span class="command-handler">app_reset</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Reset variables to default settings</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w r</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun start_fan10</span>
+      <span class="command-handler">app_start_fan10</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Start the border router using FAN1.0 settings: w st10</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w st10</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun start_fan11</span>
+      <span class="command-handler">app_start_fan11</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Start the border router using FAN1.1 settings: w st11</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w st11</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun start_explicit</span>
+      <span class="command-handler">app_start_explicit</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Start the border router using explicit PHY settings: w ste</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w ste</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun start_ids</span>
+      <span class="command-handler">app_start_ids</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Start the border router using radio conf ids: w sti</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w sti</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun start_custom_fsk</span>
+      <span class="command-handler">app_start_custom_fsk</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Start the border router using custom FSK PHY settings: w scf</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w scf</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun start_custom_ofdm</span>
+      <span class="command-handler">app_start_custom_ofdm</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Start the border router using custom OFDM PHY settings: w scof</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w scof</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun start_custom_oqpsk</span>
+      <span class="command-handler">app_start_custom_oqpsk</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Start the border router using custom OQPSK PHY settings: w scoq</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w scoq</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun stop</span>
+      <span class="command-handler">app_stop</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Stop the border router</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w stop</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun ping</span>
+        <span class="command-argument">str</span>
+        <span class="command-argument">[u16]</span>
+      <span class="command-handler">app_ping</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Ping a remote host: w p</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w p</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">str</span>Remote address
+        </li>
+        <li>
+        <span class="argument-name">u16</span><em>(optional)</em> packet size in byte
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun tcp_client</span>
+        <span class="command-argument">str</span>
+        <span class="command-argument">u16</span>
+      <span class="command-handler">app_tcp_client</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Open a TCP client socket: w tc</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w tc</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">str</span>Remote address
+        </li>
+        <li>
+        <span class="argument-name">u16</span>Remote port
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun tcp_server</span>
+        <span class="command-argument">u16</span>
+      <span class="command-handler">app_tcp_server</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Open a TCP server socket: w ts</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w ts</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u16</span>Local port
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun udp_client</span>
+        <span class="command-argument">str</span>
+        <span class="command-argument">u16</span>
+      <span class="command-handler">app_udp_client</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Open a UDP client socket: w uc</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w uc</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">str</span>Remote address
+        </li>
+        <li>
+        <span class="argument-name">u16</span>Remote port
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun udp_server</span>
+        <span class="command-argument">u16</span>
+      <span class="command-handler">app_udp_server</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Open a UDP server socket: w us</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w us</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u16</span>Local port
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun socket_close</span>
+        <span class="command-argument">u32</span>
+      <span class="command-handler">app_socket_close</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Close a socket: w sc</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w sc</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u32</span>Socket Id
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun socket_read</span>
+        <span class="command-argument">u32</span>
+        <span class="command-argument">u16</span>
+      <span class="command-handler">app_socket_read</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Read from a socket: w sr</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w sr</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u32</span>Socket Id
+        </li>
+        <li>
+        <span class="argument-name">u16</span>Amount of bytes to read
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun socket_write</span>
+        <span class="command-argument">u32</span>
+        <span class="command-argument">str</span>
+      <span class="command-handler">app_socket_write</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Write to a socket: w sw</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w sw</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u32</span>Socket Id
+        </li>
+        <li>
+        <span class="argument-name">str</span>Data to write
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun socket_writeto</span>
+        <span class="command-argument">u32</span>
+        <span class="command-argument">str</span>
+        <span class="command-argument">u16</span>
+        <span class="command-argument">str</span>
+      <span class="command-handler">app_socket_writeto</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Write to a socket to a specific host: w swt</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w swt</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u32</span>Socket Id
+        </li>
+        <li>
+        <span class="argument-name">str</span>Remote address
+        </li>
+        <li>
+        <span class="argument-name">u16</span>Remote port
+        </li>
+        <li>
+        <span class="argument-name">str</span>Data to write
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun socket_list</span>
+      <span class="command-handler">app_socket_list</span>
+    </div>
+    <div class="command-info">
+      <div class="help">List open sockets: w sl</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w sl</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun socket_set_option</span>
+        <span class="command-argument">u32</span>
+        <span class="command-argument">str</span>
+        <span class="command-argument">str</span>
+      <span class="command-handler">app_socket_set_option</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Set a socket option: w ss</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w ss</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u32</span>Socket Id
+        </li>
+        <li>
+        <span class="argument-name">str</span>Option
+        </li>
+        <li>
+        <span class="argument-name">str</span>Option data
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun mac_allow</span>
+        <span class="command-argument">str</span>
+      <span class="command-handler">app_mac_allow</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Add a MAC address to the list of allowed addresses, FF:FF:FF:FF:FF:FF:FF:FF to allow all MAC addresses: w ma</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w ma</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">str</span>MAC address
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun mac_deny</span>
+        <span class="command-argument">str</span>
+      <span class="command-handler">app_mac_deny</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Add a MAC address to the list of denied addresses, FF:FF:FF:FF:FF:FF:FF:FF to deny all MAC addresses: w md</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w md</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">str</span>MAC address
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun socket_get_option</span>
+        <span class="command-argument">*</span>
+      <span class="command-handler">app_socket_get_option</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Get a socket option: w sg</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w sg</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">*</span>empty | [uint32] Socket Id [string] Option <em>(zero or more arbitrary arguments)</em>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun clear_credential_cache</span>
+      <span class="command-handler">app_clear_credential_cache</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Clear the credential cache: w ccc</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w ccc</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun reset_statistics</span>
+      <span class="command-handler">app_reset_statistics</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Reset the statistics: w rs</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w rs</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun set_trace_level</span>
+        <span class="command-argument">str</span>
+      <span class="command-handler">app_set_trace_level</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Set the trace level: w tl</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w tl</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">str</span>List of ID,level; such as 1,none;4,info to configure group ID 1 with no log and group ID 4 with INFO level. Can also use all,info to set all group to INFO level
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun set_lfn_support</span>
+        <span class="command-argument">u8</span>
+        <span class="command-argument">u8</span>
+      <span class="command-handler">app_set_lfn_support</span>
+    </div>
+    <div class="command-info">
+      <div class="help">configure LFN support</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w set_lfn_support</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u8</span>lfn_limit: Number of locally supported LFN
+        </li>
+        <li>
+        <span class="argument-name">u8</span>lfn_support_pan: Enable or disable LFN support at PAN (0|1)
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun set_dhcp_vendor_data</span>
+        <span class="command-argument">u32</span>
+        <span class="command-argument">hex</span>
+      <span class="command-handler">app_set_dhcp_vendor_data</span>
+    </div>
+    <div class="command-info">
+      <div class="help">add vendor data to include in DHCP replies</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w dhcpvd</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u32</span>enterprise_number: Vendor's registered Enterprise Number
+        </li>
+        <li>
+        <span class="argument-name">hex</span>data: Suboption data written in hex format
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun pan_defect_advertise</span>
+        <span class="command-argument">u8</span>
+        <span class="command-argument">u32</span>
+        <span class="command-argument">u32</span>
+      <span class="command-handler">app_pan_defect_advertise</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Set PAN defect advertisement</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w pan_defect_advertise</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u8</span>defect_advertise: True to start PAN Defect procedure, false to stop it
+        </li>
+        <li>
+        <span class="argument-name">u32</span>minimum_scan_time_s: Minimum duration after which devices are allowed to switch their PAN if an alternative one is available.
+        </li>
+        <li>
+        <span class="argument-name">u32</span>maximum_scan_time_s: Duration after which devices should systemically switch to the alternative PAN if one is available.
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun mode_switch</span>
+        <span class="command-argument">u8</span>
+        <span class="command-argument">u8</span>
+        <span class="command-argument">[str]</span>
+      <span class="command-handler">app_mode_switch</span>
+    </div>
+    <div class="command-info">
+      <div class="help">configure mode witch: w ms</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w ms</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u8</span>mode: 0=disabled, 1=enabled, 2=default
+        </li>
+        <li>
+        <span class="argument-name">u8</span>PhyModeId
+        </li>
+        <li>
+        <span class="argument-name">str</span><em>(optional)</em> neighbor MAC address (optional)
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun concurrent_detection</span>
+        <span class="command-argument">u8</span>
+      <span class="command-handler">app_concurrent_detection</span>
+    </div>
+    <div class="command-info">
+      <div class="help">configure concurrent detection: w cd</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w cd</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u8</span>enable: 0=disabled, greater than 0=enabled
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun trigger</span>
+        <span class="command-argument">str</span>
+      <span class="command-handler">app_trigger_frame</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Trigger the transmission of a frame</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w tx</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">str</span>frame type
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun getsockname</span>
+        <span class="command-argument">u32</span>
+      <span class="command-handler">app_getsockname</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Get socket's local Ip address</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w getsockname</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u32</span>Socket Id
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun getpeername</span>
+        <span class="command-argument">u32</span>
+      <span class="command-handler">app_getpeername</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Get socket's peer Ip address</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w getpeername</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u32</span>Socket Id
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun set_phy_sens</span>
+        <span class="command-argument">u8</span>
+        <span class="command-argument">i16</span>
+      <span class="command-handler">app_set_phy_sensitivity</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Set the sensitivity for the given PHY mode ID</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w set_phy_sens</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u8</span>PHY mode ID
+        </li>
+        <li>
+        <span class="argument-name">i16</span>Sensitivity in dBm
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun trigger_global_repair</span>
+      <span class="command-handler">app_trigger_global_repair</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Increments the DODAG version to trigger a global repair</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w tgr</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun routing_table</span>
+      <span class="command-handler">app_get_routing_table</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Display the routing table</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w rt</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun routing_table_from_index</span>
+        <span class="command-argument">u16</span>
+        <span class="command-argument">u16</span>
+      <span class="command-handler">app_get_routing_table_from_index</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Display the routing table from the given index</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w rti</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u16</span>Starting index
+        </li>
+        <li>
+        <span class="argument-name">u16</span>Max number of entries to retrieve
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun revoke_pairwise</span>
+        <span class="command-argument">str</span>
+      <span class="command-handler">app_revoke_pairwise_keys</span>
+    </div>
+    <div class="command-info">
+      <div class="help">revoke pairwise keys: w rpk</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w rpk</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">str</span>Target MAC address
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun revoke_group</span>
+        <span class="command-argument">u8</span>
+        <span class="command-argument">[str]</span>
+      <span class="command-handler">app_revoke_gtks</span>
+    </div>
+    <div class="command-info">
+      <div class="help">revoke group keys: w rgk</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w rgk</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u8</span>Revoke LGTKs
+        </li>
+        <li>
+        <span class="argument-name">str</span><em>(optional)</em> New key to install (optional)
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun reset_duty_cycle</span>
+      <span class="command-handler">app_reset_duty_cycle</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Reset the duty cycle counters</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w rdc</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun set_option</span>
+        <span class="command-argument">u32</span>
+        <span class="command-argument">u32</span>
+        <span class="command-argument">u16</span>
+      <span class="command-handler">app_set_option</span>
+    </div>
+    <div class="command-info">
+      <div class="help">set Wi-SUN option</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w sopt</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u32</span>Wi-SUN option ID
+        </li>
+        <li>
+        <span class="argument-name">u32</span>Option value
+        </li>
+        <li>
+        <span class="argument-name">u16</span>Option length in bytes
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> wisun reset_parameters</span>
+      <span class="command-handler">app_reset_parameters</span>
+    </div>
+    <div class="command-info">
+      <div class="help">reset Wi-SUN parameters</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> w rstpar</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    </div>
+  </div>
+</div>
+<div class="group">
+  <div class="group-header">
+    <h2 class="group-name"> util</h2>
+  </div>
+  <div class="group-info">
+    <span class="help">Utility commands</span>
+    
+    <div class="command-list">
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> util fill_heap</span>
+        <span class="command-argument">u16</span>
+      <span class="command-handler">app_util_fill_heap</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Fill the heap with fixed-size blocks: u fh <block_size></div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> u fh</span>
+      </div>
+      
+      
+      <div class="argument-list">
+      <div class="arguments-title">Arguments</div>
+      <ul>
+        <li>
+        <span class="argument-name">u16</span>block size
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+    
+    
+  
+  <div class="command">
+    <div class="command-header-bar"></div>
+    <div class="command-header">
+      <span class="command-name"> util release_heap</span>
+      <span class="command-handler">app_util_release_heap</span>
+    </div>
+    <div class="command-info">
+      <div class="help">Release previously filled heap: u rh</div>
+      
+      <div class="alias-list">
+      <span class="aliases-title">Alias</span>
+      <span class="alias"> u rh</span>
+      </div>
+      
+      
+    </div>
+  </div>
+    </div>
+  </div>
+</div></div>
+
+<script>
+searchbar = document.getElementById('search');
+searchbar.addEventListener('input', function(e) {
+  value = e.target.value.toLowerCase();
+  commands = document.querySelectorAll('.command-name');
+  commands.forEach(function(el) {
+    if (el.textContent.trim().toLowerCase().includes(value)) {
+      el.closest('.command').style.display = 'block';
+    } else {
+      el.closest('.command').style.display = 'none';
+    }
+  });
+});
+</script>
+</body>
+</html>
